@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+        <link rel ="stylesheet" href ="https://stackpath.bootstrapcdn.com / bootstrap / 4.4.1 / css / bootstrap.min.css"
+        integrity ="sha384-Vkoo8x4CGsO3 + Hhxv8T / Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin ="anonymous">
+
+      <!-- Latest JQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+  <!-- Tether - a requirement for Bootstrap tooltips -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js"></script>
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.9/web3.min.js"></script>
+      <script src="{% static 'web3auth/js/web3auth.js' %}"></script>
+
+
+    <script>
+
+            function ready(fn) {
+      if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        fn();
+      } else {
+        document.addEventListener('DOMContentLoaded', fn);
+      }
+    }
+
+    ready(function () {
+        if (window.ethereum) {
+            web3 = new Web3(window.ethereum);
+            try {
+                window.ethereum.enable().then(function () {
+                    // User has allowed account access to DApp...
+                    promise = web3.eth.getAccounts(function (error, accounts) {
+                        console.log(accounts[0], 'current account on init');
+
+                        //document.getElementById("accn").textContent= accounts[0]
+
+                        return accounts[0]
+                    });
+                    promise.then(function (account) {
+                        $.ajax({
+                            url: '/register/verification',
+                            type: 'POST',
+                            data: JSON.stringify({'address': account}),
+                            cache: false,
+                            processData: false,
+                            contentType: false,
+                            success: function (data) {
+                                if(data.access){
+                                    $('.disabled').removeClass('disabled');
+                                }
+                                else {
+                                    alert("Kindly buy Stakes to register for Nami wallet")
+                                }
+                            }
+                        });
+                        return true;
+                    });
+                });
+            } catch (e) {
+                alert('Please Connect MetaMsk !');
+                // User has denied account access to DApp...
+            }
+        } else {
+            alert('You have to install MetaMask !');
+        }
+    });
+
+
+    </script>
+<style>
+    a.disabled {
+    pointer-events:none;
+}
+
+</style>
+
+
+</head>
+<body>
+
+<div class="content">
+    <h2 class="home_text">Welcome to</h2>
+    <h1>Grise Finance</h1><hr _ngcontent-pka-c62="" class="hr_css">
+    <h4> Give your crypto trading The Power of Ai</h4><br/>
+    <h3>If You are a Stack holder proceed to</h3>
+    <h3>Register Your Nami Wallet.</h3>
+<form action="/register/register" method="post">
+<div class ="card-mb-3" style="padding: 20px;">
+    <div class ="card-body">
+        <h3></h3>
+        <input type="text" name="nami_address" placeholder="Enter Your Nami Wallet Address" style="width: 250px;height: 30px;color: black"><br>
+        <input type="submit" value="Register" class="pancakeswap">
+    </div>
+</div>
+</form>
+
+</div>
+
+
+</body>
+</html>
+{% endblock %}
