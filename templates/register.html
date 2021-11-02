@@ -36,6 +36,8 @@
     ready(function () {
         if (window.ethereum) {
             web3 = new Web3(window.ethereum);
+
+
             try {
                 window.ethereum.enable().then(function () {
                     // User has allowed account access to DApp...
@@ -48,7 +50,7 @@
                     });
                     promise.then(function (account) {
                         $.ajax({
-                            url: '/register/verification',
+                            url: '{% url "verification" %}',
                             type: 'POST',
                             data: JSON.stringify({'address': account}),
                             cache: false,
@@ -56,10 +58,10 @@
                             contentType: false,
                             success: function (data) {
                                 if(data.access){
-                                    $('.disabled').removeClass('disabled');
+                                    $("#btnSubmit").attr("disabled", false);
                                 }
                                 else {
-                                    alert("Kindly buy Stakes to register for Nami wallet")
+                                    alert("Kindly stake your grise token to register your Nami Wallet")
                                 }
                             }
                         });
@@ -77,13 +79,6 @@
 
 
     </script>
-<style>
-    a.disabled {
-    pointer-events:none;
-}
-
-</style>
-
 
 </head>
 <body>
@@ -92,15 +87,17 @@
     <h2 class="home_text">Welcome to</h2>
     <h1>Grise Finance</h1><hr _ngcontent-pka-c62="" class="hr_css">
     <h4> Give your crypto trading The Power of Ai</h4><br/>
-    <h3>If You are a Stack holder proceed to</h3>
-    <h3>Register Your Nami Wallet.</h3>
+    <h3>If You Have Staked Grise Token, </h3>
+    <h3>Proceed to Register Your Nami Wallet Address.</h3>
 <form action="/register/register" method="post">
 <div class ="card-mb-3" style="padding: 20px;">
     <div class ="card-body">
         <h3></h3>
-        <input type="text" name="nami_address" placeholder="Enter Your Nami Wallet Address" style="width: 250px;height: 30px;color: black"><br>
-        <input type="submit" value="Register" class="pancakeswap">
+        <input type="text" name="nami_address" placeholder="Enter Your Nami Wallet Address" style="width: 260px;height: 35px;color: black"><br>
+        <input type="submit" id="btnSubmit" value="Register" class="pancakeswap" disabled style="height: 30px;"><br>
     </div>
+            <h3 style="color: red">{{ msg }}</h3>
+
 </div>
 </form>
 

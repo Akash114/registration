@@ -10,3 +10,10 @@ class Registration(models.Model):
 
     def __str__(self):
         return self.bsc_address
+
+
+class Reservation(models.Model):
+    slot_number = models.IntegerField()
+    address = models.CharField(max_length=200)
+    amount = models.CharField(max_length=200)
+    amount_BNB = models.FloatField()
