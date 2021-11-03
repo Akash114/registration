@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'register.apps.RegisterConfig',
     'web3auth.apps.Web3AuthConfig',
     'import_export',
-
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

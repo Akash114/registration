@@ -4,7 +4,7 @@ from django.db import models
 
 
 class Registration(models.Model):
-    bsc_address = models.CharField(max_length=200)
+    bsc_address = models.CharField(max_length=200,primary_key=True)
     nami_address = models.CharField(max_length=200,null=True,blank=True)
     register_date = models.DateTimeField('date registered',auto_now_add=True, blank=True)
 

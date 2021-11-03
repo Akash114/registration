@@ -6,6 +6,8 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from web3 import Web3
 from .models import Registration, Reservation
+from rest_framework import viewsets
+from .serializers import RegistrationSerializer
 
 
 # Create your views here.
@@ -55,3 +57,10 @@ def register(request):
         user.save()
         msg = "Thank you for registering Nami wallet address !!"
     return render(request, 'register.html', {'msg': msg})
+
+
+class RegistrationViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Registration.objects.all()
+    serializer_class = RegistrationSerializer
+
+
